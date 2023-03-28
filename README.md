@@ -1,2 +1,2 @@
 # heartwave
-Group project for COMP 3004
+Group Project for COMP 3004
