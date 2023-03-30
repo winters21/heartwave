@@ -9,7 +9,7 @@ public:
     Lights(bool, bool, int);
 
     bool getLightOn();
-    bool getPowerON();
+    bool getPowerOn();
     int getCoherenceLight();
 
     void setLightOn(bool);
