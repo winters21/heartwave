@@ -11,8 +11,8 @@ public:
     int GetScore() {return score;}
     int GetLevel() {return level;}
     
-    void SetScore(int s) {return score = s;}
-    void SetLevel(int l) {return level = l;}
+    void SetScore(int s) { score = s; }
+    void SetLevel(int l) { level = l; }
     
 private:
     int score;
