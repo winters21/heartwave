@@ -1,12 +1,24 @@
 #include "mediator.h"
+#include "mainwindow.h"
 
-Mediator::Mediator()
+Mediator::Mediator(MainWindow* window)
 {
-    hv = new HeartWave();  // TODO: might have parameters
+    this -> window = window;
+    hv = new HeartWave(this);  // TODO: might have parameters
 }
 
 void Mediator::updateSettings(int breathPacer, int challengeLevel) {
     cout << "Updating Breath Pacer to " << breathPacer << endl;
     cout << "Updating Challenge Level to " << challengeLevel << endl;
     // TODO: Once the HW is setup, change it's above values
+}
+
+void Mediator::updateUIElement(string element){
+    if (element == "battery") {
+        // TODO: Update the battery on the UI
+    }
+}
+
+void Mediator::updateBattery() {
+    this -> hv -> removeBattery();
 }
