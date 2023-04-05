@@ -41,3 +41,26 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    ../../Downloads/comp3004team3-master/res/buttons/backButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/chargeButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/downButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/leftButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/menuButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/okButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/powerButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/rightButton.svg \
+    ../../Downloads/comp3004team3-master/res/buttons/upButton.svg \
+    ../../team3/res/buttons/backButton.svg \
+    ../../team3/res/buttons/chargeButton.svg \
+    ../../team3/res/buttons/downButton.svg \
+    ../../team3/res/buttons/leftButton.svg \
+    ../../team3/res/buttons/menuButton.svg \
+    ../../team3/res/buttons/okButton.svg \
+    ../../team3/res/buttons/powerButton.svg \
+    ../../team3/res/buttons/rightButton.svg \
+    ../../team3/res/buttons/upButton.svg
+
+RESOURCES += \
+    resources.qrc

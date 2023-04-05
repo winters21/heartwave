@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "mediator.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,7 +17,9 @@ public:
     ~MainWindow();
 private slots:
     void update();
+    void setSettings();
 private:
     Ui::MainWindow *ui;
+    Mediator *mediator;
 };
 #endif // MAINWINDOW_H
