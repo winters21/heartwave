@@ -2,26 +2,21 @@
 #define HEARTWAVE_H
 
 #include <QMainWindow>
-#include <iostream>
-
-class Mediator;
-using namespace std;
+#include "lights.h"
+#include "coherence.h"
+#include "log.h"
 
 class HeartWave
 {
 public:
-    HeartWave(Mediator*);
-
-    void removeBattery();
-    void resetBattery();
-    int getBattery();
+    HeartWave();
+    Lights* getLight() {return light;};
+    Coherence* getCoherence() {return coherence;};
+    Log* getLog() {return log;};
 private:
-    Mediator *mediator;
-    float battery = 100;
-    int breathPacer = 10;
-    int challengeLevel;
-    int achievementScore;
-    string hrContact;
+    Lights *light;
+    Coherence *coherence;
+    Log *log;
 };
 
 #endif // HEARTWAVE_H

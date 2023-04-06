@@ -1,21 +1,9 @@
 #include "heartwave.h"
-#include "mediator.h"
 
-HeartWave::HeartWave(Mediator* mediator)
+HeartWave::HeartWave()
 {
-    this -> mediator = mediator;
-}
+    light = new Lights();
+    coherence = new Coherence();
+    log = new Log;
 
-void HeartWave::removeBattery() {
-    this -> battery -= 0.7;
-    this -> mediator -> updateUIElement("battery");
-}
-
-int HeartWave::getBattery() {
-    return battery;
-}
-
-void HeartWave::resetBattery() {
-    this -> battery = 100;
-    this -> mediator -> updateUIElement("battery");
 }
