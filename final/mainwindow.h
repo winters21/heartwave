@@ -20,6 +20,8 @@ public:
 private slots:
     void update();
     void setSettings();
+    void updateAchievementScore();
+    void updateHeartCoherence();
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;

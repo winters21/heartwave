@@ -42,6 +42,5 @@ void Lights::turnOnPacer() {
 }
 
 // TODO
-void Lights::setColor() {
-
+void Lights::setColor(int color) {
 }

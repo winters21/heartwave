@@ -16,6 +16,10 @@ public:
     void updateSettings(int, int);
     void updateUIElement(string);
     void updateBattery();
+
+    //Getter
+    HeartWave* getHeartWave() {return hv;}
+
 private:
     HeartWave *hv;
     MainWindow *window;

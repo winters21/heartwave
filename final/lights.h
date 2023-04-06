@@ -17,7 +17,7 @@ public:
     void setCoherenceLight(int);
 
     void turnOnPacer();
-    void setColor();
+    void setColor(int);
 
 private:
     bool lightOn;
