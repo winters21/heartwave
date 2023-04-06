@@ -227,14 +227,14 @@ border-radius: 20px;
    <widget class="QLabel" name="batteryLevel">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>690</x>
       <y>40</y>
       <width>54</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;100%&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;100&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QOpenGLWidget" name="deviceBackground">
