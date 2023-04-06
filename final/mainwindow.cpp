@@ -32,3 +32,8 @@ void MainWindow::setSettings() {
     std::cout << "Updating settings..." << std::endl;
     mediator -> updateSettings(ui -> breathPacer -> value(), ui -> challengeLevel -> value());
 }
+
+void MainWindow::updateBattery(float batt) {
+    ui -> batteryLevel -> setNum(batt);
+    ui -> batteryLevel -> setStyleSheet("QLabel { color : white; }");
+}

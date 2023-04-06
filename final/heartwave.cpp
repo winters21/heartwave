@@ -7,10 +7,15 @@ HeartWave::HeartWave(Mediator* mediator)
 }
 
 void HeartWave::removeBattery() {
-    this -> battery -= 1.5;
+    this -> battery -= 0.7;
     this -> mediator -> updateUIElement("battery");
 }
 
 int HeartWave::getBattery() {
     return battery;
+}
+
+void HeartWave::resetBattery() {
+    this -> battery = 100;
+    this -> mediator -> updateUIElement("battery");
 }

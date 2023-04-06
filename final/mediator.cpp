@@ -15,7 +15,7 @@ void Mediator::updateSettings(int breathPacer, int challengeLevel) {
 
 void Mediator::updateUIElement(string element){
     if (element == "battery") {
-        // TODO: Update the battery on the UI
+        this -> window -> updateBattery(this -> hv -> getBattery());
     }
 }
 
