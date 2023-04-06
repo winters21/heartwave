@@ -15,11 +15,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void updateBattery(float);
 private slots:
     void update();
+    void setSettings();
     void updateAchievementScore();
     void updateHeartCoherence();
-    void setSettings();
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;
