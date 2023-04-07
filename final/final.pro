@@ -23,7 +23,8 @@ SOURCES += \
     log.cpp \
     main.cpp \
     mainwindow.cpp \
-    mediator.cpp
+    mediator.cpp \
+    mockheartrate.cpp
 
 HEADERS += \
     coherence.h \
@@ -32,7 +33,8 @@ HEADERS += \
     lights.h \
     log.h \
     mainwindow.h \
-    mediator.h
+    mediator.h \
+    mockheartrate.h
 
 FORMS += \
     mainwindow.ui

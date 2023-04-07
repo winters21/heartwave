@@ -8,5 +8,5 @@ Coherence::Coherence()
 
 Coherence::Coherence(int s, int l){
     score = s;
-    level = s;
+    level = l;
 }
