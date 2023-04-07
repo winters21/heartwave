@@ -19,3 +19,11 @@ void HeartWave::resetBattery() {
     this -> battery = 100;
     this -> mediator -> updateUIElement("battery");
 }
+
+void HeartWave::startSession() {
+
+}
+
+void HeartWave::endSession() {
+
+}

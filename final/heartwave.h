@@ -17,6 +17,8 @@ public:
 
     void removeBattery();
     void resetBattery();
+    void startSession();
+    void endSession();
 
     //Getters
     int getBattery();

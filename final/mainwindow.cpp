@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    sessionUnderway = false;
     ui->setupUi(this);
     mediator = new Mediator(this); // TODO: might have parameters
 
@@ -24,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(timer_achievement, SIGNAL(timeout()), SLOT(updateAchievementScore()));
     connect(timer_heart_coherence, SIGNAL(timeout()), SLOT(updateHeartCoherence()));
     connect(timer_heart_rate, SIGNAL(timeout()), SLOT(generateHeartRate()));
+
+    connect(ui -> okButton, SIGNAL(clicked()), SLOT(session()));
 
     timer -> start(2000);
     timer_heart_coherence -> start(64000);
@@ -83,4 +86,16 @@ void MainWindow::updateHeartCoherence() {
     }
 
     mediator->getHeartWave()->getLight()->setColor(color);
+}
+
+void MainWindow::session() {
+    if (sessionUnderway) {
+        cout << "Ending Session.." << endl;
+        mediator -> getHeartWave() -> endSession();
+        sessionUnderway = false;
+    } else {
+        cout << "Starting Session.." << endl;
+        mediator -> getHeartWave() -> startSession();
+        sessionUnderway = true;
+    }
 }
