@@ -10,26 +10,36 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mediator = new Mediator(this); // TODO: might have parameters
 
+    mockGen = new MockHeartRate(1);
+
     // Connect the set settings button for the settings tab
     connect(ui -> setSettings, SIGNAL(clicked()), this, SLOT(setSettings()));
 
     QTimer* timer = new QTimer();
     QTimer* timer_achievement = new QTimer();
     QTimer* timer_heart_coherence = new QTimer();
+    QTimer* timer_heart_rate = new QTimer();
 
     connect(timer, SIGNAL(timeout()), SLOT(update()));
     connect(timer_achievement, SIGNAL(timeout()), SLOT(updateAchievementScore()));
     connect(timer_heart_coherence, SIGNAL(timeout()), SLOT(updateHeartCoherence()));
+    connect(timer_heart_rate, SIGNAL(timeout()), SLOT(generateHeartRate()));
 
     timer -> start(2000);
     timer_heart_coherence -> start(64000);
-    timer_achievement -> start(5000);
+    timer_heart_rate -> start(1000);
+//    timer_achievement -> start(5000);
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::generateHeartRate() {
+    mockGen->generate();
+    std::cout << mockGen->getList().last() << endl;
 }
 
 void MainWindow::update() {
@@ -48,6 +58,8 @@ void MainWindow::updateBattery(float batt) {
 
 void MainWindow::updateAchievementScore() {
     std::cout << "Updating Achievement Score..." << std::endl;
+
+    // TODO Need to actually have a Coherence class in HeartWave.
     int score = mediator->getHeartWave()->getCoherence()->GetScore();
     mediator->getHeartWave()->AddToAchievement(score);
 

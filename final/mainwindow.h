@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mediator.h"
+#include "mockheartrate.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,8 +23,10 @@ private slots:
     void setSettings();
     void updateAchievementScore();
     void updateHeartCoherence();
+    void generateHeartRate();
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;
+    MockHeartRate *mockGen;
 };
 #endif // MAINWINDOW_H
