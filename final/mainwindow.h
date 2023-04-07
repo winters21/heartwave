@@ -24,9 +24,11 @@ private slots:
     void updateAchievementScore();
     void updateHeartCoherence();
     void generateHeartRate();
+    void session();
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;
     MockHeartRate *mockGen;
+    bool sessionUnderway;
 };
 #endif // MAINWINDOW_H
