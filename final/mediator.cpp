@@ -22,3 +22,8 @@ void Mediator::updateUIElement(string element){
 void Mediator::updateBattery() {
     this -> hv -> removeBattery();
 }
+
+void Mediator::addDataToGraph(int heartbeat, int time) {
+    // Calls the addData method in MainWindow to add data to the graph
+    this -> window -> addData(heartbeat, time);
+}

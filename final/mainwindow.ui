@@ -247,13 +247,13 @@ border-radius: 20px;
      </rect>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphView">
+   <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>80</y>
-      <width>261</width>
-      <height>181</height>
+      <x>433</x>
+      <y>70</y>
+      <width>271</width>
+      <height>171</height>
      </rect>
     </property>
    </widget>
@@ -271,7 +271,7 @@ border-radius: 20px;
    <zorder>powerButton</zorder>
    <zorder>downButton</zorder>
    <zorder>batteryLevel</zorder>
-   <zorder>graphView</zorder>
+   <zorder>customPlot</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -285,6 +285,14 @@ border-radius: 20px;
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

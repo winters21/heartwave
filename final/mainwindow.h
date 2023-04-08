@@ -18,6 +18,9 @@ public:
     ~MainWindow();
 
     void updateBattery(float);
+    void createGraph();
+    void addData(int, int);
+    void clearGraph();
 private slots:
     void update();
     void setSettings();

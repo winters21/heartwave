@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     sessionUnderway = false;
     ui->setupUi(this);
     mediator = new Mediator(this); // TODO: might have parameters
+    createGraph();
 
     mockGen = new MockHeartRate(1);
 
@@ -98,4 +99,25 @@ void MainWindow::session() {
         mediator -> getHeartWave() -> startSession();
         sessionUnderway = true;
     }
+}
+
+void MainWindow::createGraph() {
+    // Create the graph and add labels
+    ui -> customPlot -> addGraph();
+    ui -> customPlot -> xAxis -> setLabel("Time");
+    ui -> customPlot -> yAxis -> setLabel("HeartBeat");
+    ui -> customPlot -> xAxis -> setRange(0, 200);
+    ui -> customPlot -> yAxis -> setRange(50, 110);
+}
+
+void MainWindow::addData(int heartbeat, int time) {
+    // TODO: Add the data to the graph in real time
+    // heartbeat = y, time = x
+    ui -> customPlot -> graph(0) -> addData(time, heartbeat);
+    ui -> customPlot -> replot();
+    ui -> customPlot -> update();
+}
+
+void MainWindow::clearGraph() {
+    ui -> customPlot -> graph(0) -> data() -> clear();
 }
