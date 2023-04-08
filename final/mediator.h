@@ -17,6 +17,8 @@ public:
     void updateUIElement(string);
     void updateBattery();
 
+    void addDataToGraph(int, int);
+
     //Getter
     HeartWave* getHeartWave() {return hv;}
 
