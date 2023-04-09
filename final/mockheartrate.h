@@ -14,6 +14,10 @@ class MockHeartRate
 public:
     MockHeartRate(int breath);
 
+    void generate();
+
+    void setMode(int);
+
     // Generate heart rate for high coherence
     void generateHigh();
 
@@ -30,6 +34,7 @@ private:
     int breath;
     bool increasing;
     int previous;
+    int mode;
 };
 
 #endif // MOCKHEARTRATE_H

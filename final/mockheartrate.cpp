@@ -8,6 +8,26 @@ MockHeartRate::MockHeartRate(int breath)
     this->previous = (rand() % 50) + 50;
 }
 
+void MockHeartRate::setMode(int mode) {
+    this->mode = mode;
+}
+
+void MockHeartRate::generate() {
+    switch(mode) {
+        case 1:
+            generateLow();
+        break;
+
+        case 2:
+            generateMedium();
+        break;
+
+        default:
+            generateHigh();
+        break;
+    }
+}
+
 void MockHeartRate::generateLow() {
     int hr = 0;
     srand(time(NULL));

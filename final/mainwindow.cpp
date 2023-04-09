@@ -29,6 +29,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui -> okButton, SIGNAL(clicked()), SLOT(session()));
 
+    connect(ui -> highButton, SIGNAL(clicked()), SLOT(activateHighCoherence()));
+    connect(ui -> lowButton, SIGNAL(clicked()), SLOT(activateLowCoherence()));
+    connect(ui -> mediumButton, SIGNAL(clicked()), SLOT(activateMediumCoherence()));
+
     timer -> start(2000);
     timer_heart_coherence -> start(64000);
     timer_heart_rate -> start(1000);

@@ -28,6 +28,9 @@ private slots:
     void updateHeartCoherence();
     void generateHeartRate();
     void session();
+    void activateHighCoherence();
+    void activateMediumCoherence();
+    void activateLowCoherence();
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;
