@@ -4,6 +4,12 @@
 HeartWave::HeartWave(Mediator* mediator)
 {
     this -> mediator = mediator;
+
+    this -> coherence = new Coherence();
+    this -> log = new Log();
+    this -> light = new Lights();
+
+    this -> achievementScore = 0;
 }
 
 void HeartWave::removeBattery() {
