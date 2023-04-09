@@ -13,7 +13,15 @@ class MockHeartRate
 {
 public:
     MockHeartRate(int breath);
-    void generate();
+
+    // Generate heart rate for high coherence
+    void generateHigh();
+
+    // Generate heart rate for medium coherence
+    void generateMedium();
+
+    // Generate heart rate for low coherence
+    void generateLow();
 
     QVector<int> getList();
 

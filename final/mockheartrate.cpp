@@ -8,7 +8,33 @@ MockHeartRate::MockHeartRate(int breath)
     this->previous = (rand() % 50) + 50;
 }
 
-void MockHeartRate::generate() {
+void MockHeartRate::generateLow() {
+    int hr = 0;
+    srand(time(NULL));
+    int chance = (rand() % 4) + 1;
+
+    if (increasing == true) {
+        hr = previous + 1;
+
+        // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 3
+        // Gives this a one in 4 chance to stop
+        if (hr >= 100 || (chance == 3)) {
+            increasing = false;
+        }
+    } else {
+        hr = previous - 1;
+
+        // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 1
+        // Gives this a one in 4 chance to stop
+        if (hr <= 50 || (chance == 1)) {
+            increasing = true;
+        }
+    }
+    previous = hr;
+    heartRateList.append(hr);
+}
+
+void MockHeartRate::generateMedium() {
     int hr = 0;
     srand(time(NULL));
     int chance = (rand() % 10) + 1;
@@ -16,17 +42,43 @@ void MockHeartRate::generate() {
     if (increasing == true) {
         hr = previous + 1;
 
-        // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 4
-        // Gives this a one in 5 chance to stop
+        // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 7
+        // Gives this a one in 10 chance to stop
         if (hr >= 100 || (chance == 7)) {
             increasing = false;
         }
     } else {
         hr = previous - 1;
 
-        // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 4
-        // Gives this a one in 5 chance to stop
+        // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 3
+        // Gives this a one in 10 chance to stop
         if (hr <= 50 || (chance == 3)) {
+            increasing = true;
+        }
+    }
+    previous = hr;
+    heartRateList.append(hr);
+}
+
+void MockHeartRate::generateHigh() {
+    int hr = 0;
+    srand(time(NULL));
+    int chance = (rand() % 20) + 1;
+
+    if (increasing == true) {
+        hr = previous + 1;
+
+        // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 7
+        // Gives this a one in 20 chance to stop
+        if (hr >= 100 || (chance == 7)) {
+            increasing = false;
+        }
+    } else {
+        hr = previous - 1;
+
+        // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 13
+        // Gives this a one in 20 chance to stop
+        if (hr <= 50 || (chance == 13)) {
             increasing = true;
         }
     }
