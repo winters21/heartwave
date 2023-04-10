@@ -12,11 +12,13 @@ using namespace std;
 class MockHeartRate
 {
 public:
-    MockHeartRate(int breath);
+    MockHeartRate();
 
     void generate();
 
+    // Setters
     void setMode(int);
+    void setBreath(int);
 
     // Generate heart rate for high coherence
     void generateHigh();

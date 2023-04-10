@@ -1,8 +1,7 @@
 #include "mockheartrate.h"
 
-MockHeartRate::MockHeartRate(int breath)
+MockHeartRate::MockHeartRate()
 {
-    this->breath = breath;
     this->increasing = true;
     srand(time(NULL));
     this->previous = (rand() % 50) + 50;

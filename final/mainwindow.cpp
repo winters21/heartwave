@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     mediator = new Mediator(this); // TODO: might have parameters
     createGraph();
 
-    mockGen = new MockHeartRate(1);
+    mockGen = new MockHeartRate();
 
     // Connect the set settings button for the settings tab
     connect(ui -> setSettings, SIGNAL(clicked()), this, SLOT(setSettings()));
@@ -43,6 +43,13 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::activateHighCoherence() {
+    ui->mediumButton->setEnabled(false);
+    ui->lowButton->setEnabled(false);
+
+
 }
 
 void MainWindow::generateHeartRate() {
