@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <iostream>
+#include <deque>
 #include "lights.h"
 #include "coherence.h"
 #include "log.h"
@@ -23,12 +24,20 @@ public:
     //Getters
     int getBattery();
     int GetAchievementScore() {return achievementScore;}
+    int GetCounter() {return coherenceCount;}
+
+    std::deque<int> GetHeartbeats() {return heartbeats;}
+
+    double getSessionTime(){return session_time;}
+
     Lights* getLight() {return light;};
     Coherence* getCoherence() {return coherence;};
     Log* getLog() {return log;};
 
     //Setters
     void AddToAchievement(int s) { achievementScore += s;}
+    void AddPointSecond(){session_time += 0.1;}
+    void AddToCounter(){coherenceCount += 1;}
 
 private:
     Mediator *mediator;
@@ -37,9 +46,14 @@ private:
     Log *log;
 
     float battery = 100;
+    double session_time = 0.0;
+
+    std::deque<int> heartbeats;
     int breathPacer = 10;
     int challengeLevel;
     int achievementScore;
+    int coherenceCount;
+
     string hrContact;
 };
 
