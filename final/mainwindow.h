@@ -33,13 +33,15 @@ private slots:
     void activateHighCoherence(QTimer*);
     void activateMediumCoherence(QTimer*);
     void activateLowCoherence(QTimer*);
+    void power();
+    void chargeBattery();
     
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;
     MockHeartRate *mockGen;
 
-    QTimer* timer;
+    QTimer* timer_battery;
     QTimer* timer_achievement;
     QTimer* timer_heart_coherence;
     QTimer* timer_session_time;
@@ -47,5 +49,10 @@ private:
     QTimer* timer_coherence_calculate;
 
     bool sessionUnderway;
+    bool powerOn;
+
+    // Methods
+    void turnOn();
+    void turnOff();
 };
 #endif // MAINWINDOW_H

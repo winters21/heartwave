@@ -34,6 +34,10 @@
 image: url(:/upButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -54,6 +58,10 @@ border-radius: 20px;
 image: url(:/downButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -74,6 +82,10 @@ border-radius: 20px;
 image: url(:/leftButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -94,6 +106,10 @@ border-radius: 20px;
 image: url(:/rightButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -114,6 +130,10 @@ border-radius: 20px;
 image: url(:/powerButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -134,6 +154,10 @@ border-radius: 20px;
 image: url(:/okButton.svg);
 background-color: #ffffff;
 border-radius: 20px;
+}
+
+QPushButton:pressed{
+background-color: FF0000;
 }</string>
     </property>
     <property name="text">
@@ -296,6 +320,19 @@ border-radius: 20px;
      <string>Low</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="chargeBattery">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>510</y>
+      <width>111</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Charge Battery</string>
+    </property>
+   </widget>
    <zorder>deviceBackground</zorder>
    <zorder>breathPacerLabel</zorder>
    <zorder>breathPacer</zorder>
@@ -314,6 +351,7 @@ border-radius: 20px;
    <zorder>highButton</zorder>
    <zorder>mediumButton</zorder>
    <zorder>lowButton</zorder>
+   <zorder>chargeBattery</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
