@@ -140,17 +140,32 @@ void MainWindow::updateHeartCoherence() {
     if (score >= 0 && score <= 5){
         //RED
         color = 0;
+
+        //Light up Red Light
+        ui->coherenceLightRed->setStyleSheet(QString::fromStdString("background-color: rgb(239, 41, 41)"));
+        ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(32, 74, 135)"));
+        ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
     if (score >= 6 && score <= 11){
         //BLUE
         color = 1;
+
+        //Light up Blue Light
+        ui->coherenceLightRed->setStyleSheet(QString::fromStdString("background-color: rgb(191, 64, 64)"));
+        ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(114, 159, 207)"));
+        ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
     if (score >= 12 && score <= 16){
         //GREEN
         color = 2;
-    }
 
+        //Light up Green Light
+        ui->coherenceLightRed->setStyleSheet(QString::fromStdString("background-color: rgb(191, 64, 64)"));
+        ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(32, 74, 135)"));
+        ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(138, 226, 52)"));
+    }
     mediator->getHeartWave()->getLight()->setColor(color);
+
 }
 
 void MainWindow::updateSessionTime() {
