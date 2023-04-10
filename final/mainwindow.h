@@ -30,7 +30,10 @@ private slots:
     void updateSessionTime();
     void generateHeartRate();
     void session();
-
+    void activateHighCoherence(QTimer*);
+    void activateMediumCoherence(QTimer*);
+    void activateLowCoherence(QTimer*);
+    
 private:
     Ui::MainWindow *ui;
     Mediator *mediator;

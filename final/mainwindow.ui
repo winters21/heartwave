@@ -257,6 +257,45 @@ border-radius: 20px;
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="highButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>270</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>High</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="mediumButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>310</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Medium</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="lowButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>350</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Low</string>
+    </property>
+   </widget>
    <zorder>deviceBackground</zorder>
    <zorder>breathPacerLabel</zorder>
    <zorder>breathPacer</zorder>
@@ -272,6 +311,9 @@ border-radius: 20px;
    <zorder>downButton</zorder>
    <zorder>batteryLevel</zorder>
    <zorder>customPlot</zorder>
+   <zorder>highButton</zorder>
+   <zorder>mediumButton</zorder>
+   <zorder>lowButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
