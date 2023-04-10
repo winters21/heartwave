@@ -9,21 +9,20 @@ MainWindow::MainWindow(QWidget *parent)
 {
     sessionUnderway = false;
     ui->setupUi(this);
-    mediator = new Mediator(this); // TODO: might have parameters
-    createGraph();
+    mediator = new Mediator(this);
 
     mockGen = new MockHeartRate();
 
     // Connect the set settings button for the settings tab
     connect(ui -> setSettings, SIGNAL(clicked()), this, SLOT(setSettings()));
 
-    timer = new QTimer();
+    timer_battery = new QTimer();
     timer_achievement = new QTimer();
     timer_heart_coherence = new QTimer();
     timer_heart_rate = new QTimer();
     timer_session_time = new QTimer();
 
-    connect(timer, SIGNAL(timeout()), SLOT(update()));
+    connect(timer_battery, SIGNAL(timeout()), SLOT(update()));
     connect(timer_achievement, SIGNAL(timeout()), SLOT(updateAchievementScore()));
     connect(timer_heart_coherence, SIGNAL(timeout()), SLOT(updateHeartCoherence()));
     connect(timer_heart_rate, SIGNAL(timeout()), SLOT(generateHeartRate()));
@@ -35,7 +34,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui -> lowButton, SIGNAL(clicked()), SLOT(activateLowCoherence(timer_heart_rate)));
     connect(ui -> mediumButton, SIGNAL(clicked()), SLOT(activateMediumCoherence(timer_heart_rate)));
 
-    timer -> start(2000);
+    connect(ui -> powerButton, SIGNAL(clicked()), SLOT(power()));
+    connect(ui -> chargeBattery, SIGNAL(clicked()), SLOT(chargeBattery()));
+
+    powerOn = false;
+    createGraph();
+    turnOff();
+
     timer_heart_coherence -> start(64000);
 //    timer_achievement -> start(5000);
 }
@@ -158,7 +163,6 @@ void MainWindow::session() {
         cout << "Ending Session.." << endl;
 
         //!/ Stop all timers
-        timer -> stop();
         timer_heart_coherence -> stop();
         timer_heart_rate -> stop();
         timer_achievement -> stop();
@@ -170,7 +174,6 @@ void MainWindow::session() {
         cout << "Starting Session.." << endl;
 
         //!/ Start all timers
-        timer -> start(2000);                   //Battery Timer
         timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
         timer_heart_rate -> start(1000);        //Get heartrate every second.
         timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
@@ -200,4 +203,44 @@ void MainWindow::addData(int heartbeat, int time) {
 
 void MainWindow::clearGraph() {
     ui -> customPlot -> graph(0) -> data() -> clear();
+}
+
+void MainWindow::power() {
+    if (powerOn) {
+        turnOff();
+        powerOn = false;
+    } else {
+        turnOn();
+        powerOn = true;
+    }
+}
+
+void MainWindow::turnOn() {
+    ui -> customPlot -> setVisible(true);
+    ui -> upButton -> setEnabled(true);
+    ui -> downButton -> setEnabled(true);
+    ui -> leftButton -> setEnabled(true);
+    ui -> rightButton -> setEnabled(true);
+    ui -> okButton -> setEnabled(true);
+    ui -> batteryLevel -> setVisible(true);
+
+    // Start the battery QTimer
+    timer_battery -> start(2000);
+}
+
+void MainWindow::turnOff() {
+    // Hide all of the UI stuff (graph, buttons, etc) until the user turns the device on
+    ui -> customPlot -> setVisible(false);
+    ui -> upButton -> setEnabled(false);
+    ui -> downButton -> setEnabled(false);
+    ui -> leftButton -> setEnabled(false);
+    ui -> rightButton -> setEnabled(false);
+    ui -> okButton -> setEnabled(false);
+    ui -> batteryLevel -> setVisible(false);
+    this -> mediator -> getHeartWave() -> resetBattery();
+    timer_battery -> stop();
+}
+
+void MainWindow::chargeBattery() {
+    this -> mediator -> getHeartWave() -> resetBattery();
 }
