@@ -29,13 +29,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui -> okButton, SIGNAL(clicked()), SLOT(session()));
 
-    connect(ui -> highButton, SIGNAL(clicked()), SLOT(activateHighCoherence()));
-    connect(ui -> lowButton, SIGNAL(clicked()), SLOT(activateLowCoherence()));
-    connect(ui -> mediumButton, SIGNAL(clicked()), SLOT(activateMediumCoherence()));
+    connect(ui -> highButton, SIGNAL(clicked()), SLOT(activateHighCoherence(timer_heart_rate)));
+    connect(ui -> lowButton, SIGNAL(clicked()), SLOT(activateLowCoherence(timer_heart_rate)));
+    connect(ui -> mediumButton, SIGNAL(clicked()), SLOT(activateMediumCoherence(timer_heart_rate)));
 
     timer -> start(2000);
     timer_heart_coherence -> start(64000);
-    timer_heart_rate -> start(1000);
 //    timer_achievement -> start(5000);
 
 }
@@ -45,11 +44,31 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::activateHighCoherence() {
+void MainWindow::activateHighCoherence(QTimer* timer) {
     ui->mediumButton->setEnabled(false);
     ui->lowButton->setEnabled(false);
 
+    mockGen -> setMode(3);
 
+    timer -> start(1000);
+}
+
+void MainWindow::activateMediumCoherence(QTimer* timer) {
+    ui->highButton->setEnabled(false);
+    ui->lowButton->setEnabled(false);
+
+    mockGen -> setMode(2);
+
+    timer -> start(1000);
+}
+
+void MainWindow::activateLowCoherence(QTimer* timer) {
+    ui->mediumButton->setEnabled(false);
+    ui->highButton->setEnabled(false);
+
+    mockGen -> setMode(1);
+
+    timer -> start(1000);
 }
 
 void MainWindow::generateHeartRate() {
