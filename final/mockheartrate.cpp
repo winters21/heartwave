@@ -27,13 +27,17 @@ void MockHeartRate::generate() {
     }
 }
 
+void MockHeartRate::clearList() {
+    this -> heartRateList.clear();
+}
+
 void MockHeartRate::generateLow() {
     int hr = 0;
     srand(time(NULL));
     int chance = (rand() % 4) + 1;
 
     if (increasing == true) {
-        hr = previous + 1;
+        hr = previous + (rand() % 20);
 
         // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 3
         // Gives this a one in 4 chance to stop
@@ -41,7 +45,7 @@ void MockHeartRate::generateLow() {
             increasing = false;
         }
     } else {
-        hr = previous - 1;
+        hr = previous - (rand() % 20);
 
         // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 1
         // Gives this a one in 4 chance to stop
@@ -59,7 +63,7 @@ void MockHeartRate::generateMedium() {
     int chance = (rand() % 10) + 1;
 
     if (increasing == true) {
-        hr = previous + 1;
+        hr = previous + (rand() % 7);
 
         // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 7
         // Gives this a one in 10 chance to stop
@@ -67,7 +71,7 @@ void MockHeartRate::generateMedium() {
             increasing = false;
         }
     } else {
-        hr = previous - 1;
+        hr = previous - (rand() % 7);
 
         // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 3
         // Gives this a one in 10 chance to stop
@@ -85,7 +89,7 @@ void MockHeartRate::generateHigh() {
     int chance = (rand() % 20) + 1;
 
     if (increasing == true) {
-        hr = previous + 1;
+        hr = previous + (rand() % 2);
 
         // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 7
         // Gives this a one in 20 chance to stop
@@ -93,7 +97,7 @@ void MockHeartRate::generateHigh() {
             increasing = false;
         }
     } else {
-        hr = previous - 1;
+        hr = previous - (rand() % 2);
 
         // Stop decreasing when HR is less than or equal to 50 BPM or chance is equal to 13
         // Gives this a one in 20 chance to stop

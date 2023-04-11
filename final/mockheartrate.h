@@ -14,6 +14,7 @@ class MockHeartRate
 public:
     MockHeartRate();
 
+    // Generates a heart rate based on the mode given
     void generate();
 
     // Setters
@@ -29,11 +30,14 @@ public:
     // Generate heart rate for low coherence
     void generateLow();
 
+    // Clears the list - this will be used in the event of a new session,
+    // and when the user decides to try a different coherence mode
+    void clearList();
+
     QVector<int> getList();
 
 private:
     QVector<int> heartRateList;
-    int breath;
     bool increasing;
     int previous;
     int mode;
