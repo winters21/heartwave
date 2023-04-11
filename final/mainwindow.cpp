@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mediator = new Mediator(this);
 
-    mockGen = new MockHeartRate();
+    mockGen = new MockHeartRate(this->mediator->getHeartWave());
 
     // Connect the set settings button for the settings tab
     connect(ui -> setSettings, SIGNAL(clicked()), this, SLOT(setSettings()));

@@ -1,7 +1,8 @@
 #include "mockheartrate.h"
 
-MockHeartRate::MockHeartRate()
+MockHeartRate::MockHeartRate(HeartWave* hw)
 {
+    this->hw = hw;
     this->increasing = true;
     srand(time(NULL));
     this->previous = (rand() % 50) + 50;
@@ -25,6 +26,7 @@ void MockHeartRate::generate() {
             generateHigh();
         break;
     }
+    this->hw->readHR(this->heartRateList.last(), this->heartRateList.size());
 }
 
 void MockHeartRate::clearList() {
