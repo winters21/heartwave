@@ -22,6 +22,7 @@ public:
     void addData(int, int);
     void clearGraph();
     void powerOffBattery();
+    void resetModeButtons();
 
 private slots:
     void update();

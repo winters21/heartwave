@@ -6,11 +6,12 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "time.h"
+#include "heartwave.h"
 
 class MockHeartRate
 {
 public:
-    MockHeartRate();
+    MockHeartRate(HeartWave*);
 
     // Generates a heart rate based on the mode given
     void generate();
@@ -36,6 +37,7 @@ public:
     int getMode() {return mode;}
 
 private:
+    HeartWave* hw;
     QVector<int> heartRateList;
     bool increasing;
     int previous;

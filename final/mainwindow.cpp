@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mediator = new Mediator(this);
 
-    mockGen = new MockHeartRate();
+    mockGen = new MockHeartRate(this->mediator->getHeartWave());
 
     // Connect the set settings button for the settings tab
     connect(ui -> setSettings, SIGNAL(clicked()), this, SLOT(setSettings()));
@@ -155,6 +155,12 @@ void MainWindow::updateSessionTime() {
     // TODO, update the session time with mediator->getHeartWave()->getSessionTime();
 }
 
+void MainWindow::resetModeButtons() {
+    ui -> highButton -> setEnabled(true);
+    ui -> mediumButton -> setEnabled(true);
+    ui -> lowButton -> setEnabled(true);
+}
+
 void MainWindow::session() {
     if (sessionUnderway) {
         cout << "Ending Session.." << endl;
@@ -169,6 +175,14 @@ void MainWindow::session() {
 
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
+
+        //TODO Log the data
+
+        // Clear the graph at the end of a session
+        // along with the data
+        clearGraph();
+        mockGen -> clearList();
+        resetModeButtons();
     } else {
         cout << "Starting Session.." << endl;
 
@@ -195,12 +209,17 @@ void MainWindow::createGraph() {
     ui -> customPlot -> yAxis -> setLabel("HeartBeat");
     ui -> customPlot -> xAxis -> setRange(0, 200);
     ui -> customPlot -> yAxis -> setRange(50, 110);
+
+    // Sets the line color
+    QColor color(0, 0, 255);
+    ui -> customPlot->graph()->setLineStyle(QCPGraph::lsLine);
+    ui -> customPlot->graph()->setPen(QPen(color));
 }
 
 void MainWindow::addData(int heartbeat, int time) {
     // TODO: Add the data to the graph in real time
     // heartbeat = y, time = x
-    ui -> customPlot -> graph(0) -> addData(time, heartbeat);
+    ui -> customPlot -> graph() -> addData(time, heartbeat);
     ui -> customPlot -> replot();
     ui -> customPlot -> update();
 }
@@ -246,6 +265,10 @@ void MainWindow::turnOff() {
     ui -> breath -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
+
+    mockGen->clearList();
+    clearGraph();
+    resetModeButtons();
 }
 
 void MainWindow::chargeBattery() {
@@ -278,7 +301,9 @@ void MainWindow::powerOffBattery() {
         timer_session_time -> stop();
         timer_breath -> stop();
         sessionUnderway = false;
+        mockGen->clearList();
         clearGraph();
+        resetModeButtons();
     }
     // Disable all the UI features until battery is recharged
     ui -> customPlot -> setVisible(false);

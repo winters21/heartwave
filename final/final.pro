@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     coherence.cpp \
-    graph.cpp \
     heartwave.cpp \
     lights.cpp \
     log.cpp \
@@ -29,7 +28,6 @@ SOURCES += \
 
 HEADERS += \
     coherence.h \
-    graph.h \
     heartwave.h \
     lights.h \
     log.h \

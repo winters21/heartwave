@@ -1,7 +1,8 @@
 #include "mockheartrate.h"
 
-MockHeartRate::MockHeartRate()
+MockHeartRate::MockHeartRate(HeartWave* hw)
 {
+    this->hw = hw;
     this->increasing = true;
     srand(time(NULL));
     this->previous = (rand() % 50) + 50;
@@ -25,6 +26,7 @@ void MockHeartRate::generate() {
             generateHigh();
         break;
     }
+    this->hw->readHR(this->heartRateList.last(), this->heartRateList.size());
 }
 
 void MockHeartRate::clearList() {
@@ -89,7 +91,7 @@ void MockHeartRate::generateHigh() {
     int chance = (rand() % 20) + 1;
 
     if (increasing == true) {
-        hr = previous + (rand() % 2);
+        hr = previous + ((rand() % 10) + 5);
 
         // Stop increasing when HR is greater than or equal to 100 BPM or chance is equal to 7
         // Gives this a one in 20 chance to stop

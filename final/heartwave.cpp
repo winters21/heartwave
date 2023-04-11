@@ -34,3 +34,7 @@ void HeartWave::startSession() {
 void HeartWave::endSession() {
 
 }
+
+void HeartWave::readHR(int hr, int time) {
+    this -> mediator ->addDataToGraph(hr, time);
+}

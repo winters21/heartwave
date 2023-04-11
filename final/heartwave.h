@@ -41,6 +41,8 @@ public:
     void AddPointSecond(){session_time += 0.1;}
     void AddToCounter(){coherenceCount += 1;}
 
+    void readHR(int, int);
+
 private:
     Mediator *mediator;
     Lights *light;
