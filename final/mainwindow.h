@@ -35,6 +35,7 @@ private slots:
     void activateLowCoherence();
     void power();
     void chargeBattery();
+    void updateBreathLabel();
     
 private:
     Ui::MainWindow *ui;
@@ -47,6 +48,7 @@ private:
     QTimer* timer_session_time;
     QTimer* timer_heart_rate;
     QTimer* timer_coherence_calculate;
+    QTimer* timer_breath;
 
     bool sessionUnderway;
     bool powerOn;

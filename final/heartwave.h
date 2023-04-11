@@ -33,8 +33,10 @@ public:
     Lights* getLight() {return light;};
     Coherence* getCoherence() {return coherence;};
     Log* getLog() {return log;};
+    int getBreathPacer(){return breathPacer;};
 
     //Setters
+    void setBreathPacer(int pacer) { breathPacer = pacer; };
     void AddToAchievement(int s) { achievementScore += s;}
     void AddPointSecond(){session_time += 0.1;}
     void AddToCounter(){coherenceCount += 1;}

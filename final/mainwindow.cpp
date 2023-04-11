@@ -21,12 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
     timer_heart_coherence = new QTimer();
     timer_heart_rate = new QTimer();
     timer_session_time = new QTimer();
+    timer_breath = new QTimer();
 
     connect(timer_battery, SIGNAL(timeout()), SLOT(update()));
     connect(timer_achievement, SIGNAL(timeout()), SLOT(updateAchievementScore()));
     connect(timer_heart_coherence, SIGNAL(timeout()), SLOT(updateHeartCoherence()));
     connect(timer_heart_rate, SIGNAL(timeout()), SLOT(generateHeartRate()));
     connect(timer_session_time, SIGNAL(timeout()), SLOT(updateSessionTime()));
+    connect(timer_breath, SIGNAL(timeout()), SLOT(updateBreathLabel()));
 
     connect(ui -> okButton, SIGNAL(clicked()), SLOT(session()));
 
@@ -176,6 +178,7 @@ void MainWindow::session() {
         timer_heart_rate -> stop();
         timer_achievement -> stop();
         timer_session_time -> stop();
+        timer_breath -> stop();
 
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
@@ -187,6 +190,10 @@ void MainWindow::session() {
         timer_heart_rate -> start(1000);        //Get heartrate every second.
         timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
         timer_session_time -> start(100);       //Update the time every .1 second/
+        ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
+        ui -> breath -> setStyleSheet("QLabel { color : white; }");
+        int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
+        timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
 
         mediator -> getHeartWave() -> startSession();
         sessionUnderway = true;
@@ -232,6 +239,7 @@ void MainWindow::turnOn() {
     ui -> rightButton -> setEnabled(true);
     ui -> okButton -> setEnabled(true);
     ui -> batteryLevel -> setVisible(true);
+    ui -> breath -> setVisible(true);
 
     // Start the battery QTimer
     timer_battery -> start(2000);
@@ -246,10 +254,20 @@ void MainWindow::turnOff() {
     ui -> rightButton -> setEnabled(false);
     ui -> okButton -> setEnabled(false);
     ui -> batteryLevel -> setVisible(false);
+    ui -> breath -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
 }
 
 void MainWindow::chargeBattery() {
     this -> mediator -> getHeartWave() -> resetBattery();
+}
+
+void MainWindow::updateBreathLabel() {
+    if (ui -> breath -> text() == "Breathing In") {
+        ui -> breath -> setText("Breathing Out");
+    } else {
+        ui -> breath -> setText("Breathing In");
+    }
+    ui -> breath -> setStyleSheet("QLabel { color : white; }");
 }
