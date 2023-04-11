@@ -15,7 +15,7 @@ public:
     void SetLevel(int l) { level = l; }
     
 private:
-    int score;
+    double score;
     int level;
 };
 

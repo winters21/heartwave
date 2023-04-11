@@ -9,7 +9,7 @@ HeartWave::HeartWave(Mediator* mediator)
     this -> log = new Log();
     this -> light = new Lights();
 
-    this -> achievementScore = 0;
+    this -> achievementScore = 0.0;
 }
 
 void HeartWave::removeBattery() {
