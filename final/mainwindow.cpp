@@ -195,12 +195,17 @@ void MainWindow::createGraph() {
     ui -> customPlot -> yAxis -> setLabel("HeartBeat");
     ui -> customPlot -> xAxis -> setRange(0, 200);
     ui -> customPlot -> yAxis -> setRange(50, 110);
+
+    // Sets the line color
+    QColor color(0, 0, 255);
+    ui -> customPlot->graph()->setLineStyle(QCPGraph::lsLine);
+    ui -> customPlot->graph()->setPen(QPen(color));
 }
 
 void MainWindow::addData(int heartbeat, int time) {
     // TODO: Add the data to the graph in real time
     // heartbeat = y, time = x
-    ui -> customPlot -> graph(0) -> addData(time, heartbeat);
+    ui -> customPlot -> graph() -> addData(time, heartbeat);
     ui -> customPlot -> replot();
     ui -> customPlot -> update();
 }
