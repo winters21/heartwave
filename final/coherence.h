@@ -6,7 +6,7 @@ class Coherence
 {
 public:
     Coherence();
-    Coherence(int, int);
+    Coherence(double, int);
     
     int GetScore() {return score;}
     int GetLevel() {return level;}
