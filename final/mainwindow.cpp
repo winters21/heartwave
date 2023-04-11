@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     sessionUnderway = false;
     ui->setupUi(this);
     mediator = new Mediator(this);
+    ui -> breathPacer -> setValue(this -> mediator -> getHeartWave() -> getBreathPacer());
 
     mockGen = new MockHeartRate(this->mediator->getHeartWave());
 
@@ -172,6 +173,7 @@ void MainWindow::session() {
         timer_session_time -> stop();
         timer_breath -> stop();
         ui -> breath -> setVisible(false);
+        ui -> session -> setVisible(false);
 
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
@@ -194,6 +196,8 @@ void MainWindow::session() {
         ui -> breath -> setVisible(true);
         ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
         ui -> breath -> setStyleSheet("QLabel { color : white; }");
+        ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
+        ui -> session -> setStyleSheet("QLabel { color : white; }");
         int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
         timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
 
@@ -263,6 +267,7 @@ void MainWindow::turnOff() {
     ui -> okButton -> setEnabled(false);
     ui -> batteryLevel -> setVisible(false);
     ui -> breath -> setVisible(false);
+    ui -> session -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
 
