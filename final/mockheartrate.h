@@ -6,9 +6,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 #include "time.h"
-#include "cmath"
 
-using namespace std;
 class MockHeartRate
 {
 public:
