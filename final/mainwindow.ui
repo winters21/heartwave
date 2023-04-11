@@ -381,6 +381,19 @@ background-color: FF0000;
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="session">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>290</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Session Underway...</string>
+    </property>
+   </widget>
    <zorder>deviceBackground</zorder>
    <zorder>breathPacerLabel</zorder>
    <zorder>breathPacer</zorder>
@@ -400,6 +413,7 @@ background-color: FF0000;
    <zorder>coherenceLightRed</zorder>
    <zorder>coherenceLightBlue</zorder>
    <zorder>coherenceLightGreen</zorder>
+   <zorder>session</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
