@@ -33,6 +33,7 @@ public:
     void clearList();
 
     QVector<int> getList();
+    int getMode() {return mode;}
 
 private:
     QVector<int> heartRateList;

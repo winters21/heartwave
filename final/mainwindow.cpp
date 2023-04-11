@@ -76,14 +76,17 @@ void MainWindow::activateLowCoherence() {
 void MainWindow::generateHeartRate() {
 
     mockGen->generate();
-    mediator->getHeartWave()->GetHeartbeats().push_back(mockGen->getList().last());
 
-    //Current 64 seconds of heart beat rhythm.
-    if (mediator->getHeartWave()->GetHeartbeats().size() > 64){
-        mediator->getHeartWave()->GetHeartbeats().pop_front();
+    double randomScore;
+    if(mockGen->getMode() == 1){
+        randomScore = ((double) rand() / RAND_MAX) * 0.5;
+    } else if (mockGen->getMode() == 2){
+        randomScore = (((double) rand() / RAND_MAX) * 0.5) + 0.5;
+    }else{
+        randomScore = (((double) rand() / RAND_MAX) * 4.1) + 1.0;
     }
 
-    std::cout << mockGen->getList().last() << endl;
+    mediator->getHeartWave()->getCoherence()->SetScore(randomScore);
 }
 
 void MainWindow::update() {
@@ -103,37 +106,17 @@ void MainWindow::updateBattery(float batt) {
 void MainWindow::updateAchievementScore() {
     std::cout << "Updating Achievement Score..." << std::endl;
 
-    // TODO Need to actually have a Coherence class in HeartWave.
-    std::deque<int> heartbeats = mediator->getHeartWave()->GetHeartbeats();
-    mediator->getHeartWave()->AddToCounter();
-
-    //Get Coherence Score from a 0-16 scale.
-    int min = 50;
-    int max = 100;
-    double avg = 0.0;
-
-    for (int i = 0; i < heartbeats.size(); ++i){
-        if (heartbeats[i] < min) {min = heartbeats[i];}
-        if (heartbeats[i] > max) {max = heartbeats[i];}
-        avg+=heartbeats[i];
-    }
-
-    avg = avg/heartbeats.size();
-    double scaled_avg = ((avg - min) / (max - min)) * 16.0;
-
-    mediator->getHeartWave()->getCoherence()->SetScore(scaled_avg);
-
-    int score = mediator->getHeartWave()->getCoherence()->GetScore();
+    double score = mediator->getHeartWave()->getCoherence()->GetScore();
     std::cout << "Score: " << score << std::endl;
     mediator->getHeartWave()->AddToAchievement(score);
 }
 
 void MainWindow::updateHeartCoherence() {
     std::cout << "Updating Heart Coherence..." << std::endl;
-    int score = mediator->getHeartWave()->getCoherence()->GetScore();
+    double score = mediator->getHeartWave()->getCoherence()->GetScore();
     int color;
 
-    if (score >= 0 && score <= 5){
+    if (score >= 0.0 && score <= 0.5){
         //RED
         color = 0;
 
@@ -142,7 +125,7 @@ void MainWindow::updateHeartCoherence() {
         ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(32, 74, 135)"));
         ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
-    if (score >= 6 && score <= 11){
+    if (score >= 0.6 && score <= 1.0){
         //BLUE
         color = 1;
 
@@ -151,7 +134,7 @@ void MainWindow::updateHeartCoherence() {
         ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(114, 159, 207)"));
         ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
-    if (score >= 12 && score <= 16){
+    if (score >= 1.1 && score <= 5.1){
         //GREEN
         color = 2;
 

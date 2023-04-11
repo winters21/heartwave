@@ -37,7 +37,7 @@ public:
 
     //Setters
     void setBreathPacer(int pacer) { breathPacer = pacer; };
-    void AddToAchievement(int s) { achievementScore += s;}
+    void AddToAchievement(double s) { achievementScore += s;}
     void AddPointSecond(){session_time += 0.1;}
     void AddToCounter(){coherenceCount += 1;}
 
@@ -53,7 +53,7 @@ private:
     std::deque<int> heartbeats;
     int breathPacer = 10;
     int challengeLevel;
-    int achievementScore;
+    double achievementScore;
     int coherenceCount;
 
     string hrContact;
