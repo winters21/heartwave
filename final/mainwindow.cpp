@@ -155,6 +155,12 @@ void MainWindow::updateSessionTime() {
     // TODO, update the session time with mediator->getHeartWave()->getSessionTime();
 }
 
+void MainWindow::resetModeButtons() {
+    ui -> highButton -> setEnabled(true);
+    ui -> mediumButton -> setEnabled(true);
+    ui -> lowButton -> setEnabled(true);
+}
+
 void MainWindow::session() {
     if (sessionUnderway) {
         cout << "Ending Session.." << endl;
@@ -169,6 +175,14 @@ void MainWindow::session() {
 
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
+
+        //TODO Log the data
+
+        // Clear the graph at the end of a session
+        // along with the data
+        clearGraph();
+        mockGen -> clearList();
+        resetModeButtons();
     } else {
         cout << "Starting Session.." << endl;
 
@@ -251,6 +265,10 @@ void MainWindow::turnOff() {
     ui -> breath -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
+
+    mockGen->clearList();
+    clearGraph();
+    resetModeButtons();
 }
 
 void MainWindow::chargeBattery() {
@@ -283,7 +301,9 @@ void MainWindow::powerOffBattery() {
         timer_session_time -> stop();
         timer_breath -> stop();
         sessionUnderway = false;
+        mockGen->clearList();
         clearGraph();
+        resetModeButtons();
     }
     // Disable all the UI features until battery is recharged
     ui -> customPlot -> setVisible(false);
