@@ -30,9 +30,9 @@ private slots:
     void updateSessionTime();
     void generateHeartRate();
     void session();
-    void activateHighCoherence(QTimer*);
-    void activateMediumCoherence(QTimer*);
-    void activateLowCoherence(QTimer*);
+    void activateHighCoherence();
+    void activateMediumCoherence();
+    void activateLowCoherence();
     void power();
     void chargeBattery();
     
