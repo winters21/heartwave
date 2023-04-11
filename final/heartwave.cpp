@@ -4,6 +4,7 @@
 HeartWave::HeartWave(Mediator* mediator)
 {
     this -> mediator = mediator;
+    this -> battery = 100;
 
     this -> coherence = new Coherence();
     this -> log = new Log();

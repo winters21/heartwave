@@ -7,9 +7,8 @@ Mediator::Mediator(MainWindow* window)
     hv = new HeartWave(this);  // TODO: might have parameters
 }
 
-void Mediator::updateSettings(int breathPacer, int challengeLevel) {
+void Mediator::updateSettings(int breathPacer) {
     cout << "Updating Breath Pacer to " << breathPacer << endl;
-    cout << "Updating Challenge Level to " << challengeLevel << endl;
     this -> hv -> setBreathPacer(breathPacer);
 }
 

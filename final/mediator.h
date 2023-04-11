@@ -13,7 +13,7 @@ class Mediator
 public:
     Mediator(MainWindow*);
 
-    void updateSettings(int, int);
+    void updateSettings(int);
     void updateUIElement(string);
     void updateBattery();
 

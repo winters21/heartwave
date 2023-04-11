@@ -21,6 +21,7 @@ public:
     void createGraph();
     void addData(int, int);
     void clearGraph();
+    void powerOffBattery();
 
 private slots:
     void update();
