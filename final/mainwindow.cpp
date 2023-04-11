@@ -95,10 +95,13 @@ void MainWindow::update() {
 
 void MainWindow::setSettings() {
     std::cout << "Updating settings..." << std::endl;
-    mediator -> updateSettings(ui -> breathPacer -> value(), ui -> challengeLevel -> value());
+    mediator -> updateSettings(ui -> breathPacer -> value());
 }
 
 void MainWindow::updateBattery(float batt) {
+    if (batt <= 0) {
+        powerOffBattery();
+    }
     ui -> batteryLevel -> setNum(batt);
     ui -> batteryLevel -> setStyleSheet("QLabel { color : white; }");
 }
@@ -162,6 +165,7 @@ void MainWindow::session() {
         timer_achievement -> stop();
         timer_session_time -> stop();
         timer_breath -> stop();
+        ui -> breath -> setVisible(false);
 
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
@@ -173,6 +177,7 @@ void MainWindow::session() {
         timer_heart_rate -> start(1000);        //Get heartrate every second.
         timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
         timer_session_time -> start(100);       //Update the time every .1 second/
+        ui -> breath -> setVisible(true);
         ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
         ui -> breath -> setStyleSheet("QLabel { color : white; }");
         int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
@@ -202,6 +207,8 @@ void MainWindow::addData(int heartbeat, int time) {
 
 void MainWindow::clearGraph() {
     ui -> customPlot -> graph(0) -> data() -> clear();
+    ui -> customPlot -> replot();
+    ui -> customPlot -> update();
 }
 
 void MainWindow::power() {
@@ -222,7 +229,6 @@ void MainWindow::turnOn() {
     ui -> rightButton -> setEnabled(true);
     ui -> okButton -> setEnabled(true);
     ui -> batteryLevel -> setVisible(true);
-    ui -> breath -> setVisible(true);
 
     // Start the battery QTimer
     timer_battery -> start(2000);
@@ -244,6 +250,12 @@ void MainWindow::turnOff() {
 
 void MainWindow::chargeBattery() {
     this -> mediator -> getHeartWave() -> resetBattery();
+
+    // If we charge the battery from being dead we want to restore the power button
+    if (!timer_battery -> isActive()) {
+        ui -> powerButton -> setEnabled(true);
+        connect(ui -> powerButton, SIGNAL(clicked()), SLOT(power()));
+    }
 }
 
 void MainWindow::updateBreathLabel() {
@@ -253,4 +265,30 @@ void MainWindow::updateBreathLabel() {
         ui -> breath -> setText("Breathing In");
     }
     ui -> breath -> setStyleSheet("QLabel { color : white; }");
+}
+
+void MainWindow::powerOffBattery() {
+    // This method gets called when the battery reaches 0
+    if (sessionUnderway) {
+        cout << "Session is underway while battery died stopping and reseting.." << endl;
+        //!/ Stop all timers and reset the graph
+        timer_heart_coherence -> stop();
+        timer_heart_rate -> stop();
+        timer_achievement -> stop();
+        timer_session_time -> stop();
+        timer_breath -> stop();
+        sessionUnderway = false;
+        clearGraph();
+    }
+    // Disable all the UI features until battery is recharged
+    ui -> customPlot -> setVisible(false);
+    ui -> upButton -> setEnabled(false);
+    ui -> downButton -> setEnabled(false);
+    ui -> leftButton -> setEnabled(false);
+    ui -> rightButton -> setEnabled(false);
+    ui -> okButton -> setEnabled(false);
+    ui -> powerButton -> setEnabled(false);
+    ui -> batteryLevel -> setVisible(false);
+    ui -> breath -> setVisible(false);
+    timer_battery -> stop();
 }

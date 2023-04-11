@@ -47,7 +47,7 @@ private:
     Coherence *coherence;
     Log *log;
 
-    float battery = 100;
+    float battery;
     double session_time = 0.0;
 
     std::deque<int> heartbeats;
