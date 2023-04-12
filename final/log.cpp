@@ -7,7 +7,18 @@ Log::Log(){}
  * This method adds the logs to a txt file at the end of a session, it then resets the sessions logs
  */
 void Log::addToSystemLog() {
-    ofstream file("../Session.txt");  // TODO: add unique id depending if the files get overridden
+
+    std::string filenamePrefix = "Session";
+    int naming_index = 0;
+    std::string currentFileName = filenamePrefix + to_string(naming_index) + ".txt";
+
+    while (ifstream(currentFileName.c_str())){
+        naming_index++;
+        currentFileName = filenamePrefix + to_string(naming_index) + ".txt";
+    }
+
+    std::cout << "Writing to File: " << currentFileName << std::endl;
+    ofstream file(currentFileName);  // TODO: add unique id depending if the files get overridden
 
     // Loop through the vector and add the logs to the output file
     for (string log: currentSession) {
@@ -35,7 +46,7 @@ void Log::addToCurrentLogs(string log) {
 
     string fullLog = currTime + " -- " + log;
     cout << fullLog << endl;
-    currentSession.push_back(fullLog);
+    currentSession.push_back(fullLog+"\n");
 }
 
 /**
