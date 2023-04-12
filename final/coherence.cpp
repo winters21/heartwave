@@ -6,7 +6,7 @@ Coherence::Coherence()
     level = 0;
 }
 
-Coherence::Coherence(double s, int l){
+Coherence::Coherence(int s, int l){
     score = s;
     level = l;
 }

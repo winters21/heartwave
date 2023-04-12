@@ -6,7 +6,7 @@ class Coherence
 {
 public:
     Coherence();
-    Coherence(double, int);
+    Coherence(int, int);
     
     int GetScore() {return score;}
     int GetLevel() {return level;}
@@ -15,7 +15,7 @@ public:
     void SetLevel(int l) { level = l; }
     
 private:
-    double score;
+    int score;
     int level;
 };
 

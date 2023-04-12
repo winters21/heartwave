@@ -78,16 +78,22 @@ void MainWindow::generateHeartRate() {
 
     mockGen->generate();
 
-    double randomScore;
+    int randomScore;
     if(mockGen->getMode() == 1){
-        randomScore = ((double) rand() / RAND_MAX) * 0.5;
+        randomScore = (rand() % 6);
     } else if (mockGen->getMode() == 2){
-        randomScore = (((double) rand() / RAND_MAX) * 0.5) + 0.5;
+        randomScore = (rand() % 5) + 6;
     }else{
-        randomScore = (((double) rand() / RAND_MAX) * 4.1) + 1.0;
+        randomScore = (rand() % 5) + 12;
     }
 
     mediator->getHeartWave()->getCoherence()->SetScore(randomScore);
+
+    //If this is the first score determined, change the light depending on the first score.
+    if (!getFirstScore()){
+        updateHeartCoherence();
+        firstScoreSet(true);
+    }
 }
 
 void MainWindow::update() {
@@ -110,17 +116,17 @@ void MainWindow::updateBattery(float batt) {
 void MainWindow::updateAchievementScore() {
     std::cout << "Updating Achievement Score..." << std::endl;
 
-    double score = mediator->getHeartWave()->getCoherence()->GetScore();
+    int score = mediator->getHeartWave()->getCoherence()->GetScore();
     std::cout << "Score: " << score << std::endl;
     mediator->getHeartWave()->AddToAchievement(score);
 }
 
 void MainWindow::updateHeartCoherence() {
     std::cout << "Updating Heart Coherence..." << std::endl;
-    double score = mediator->getHeartWave()->getCoherence()->GetScore();
+    int score = mediator->getHeartWave()->getCoherence()->GetScore();
     int color;
 
-    if (score >= 0.0 && score <= 0.5){
+    if (score >= 0 && score <= 5){
         //RED
         color = 0;
 
@@ -129,7 +135,7 @@ void MainWindow::updateHeartCoherence() {
         ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(32, 74, 135)"));
         ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
-    if (score >= 0.6 && score <= 1.0){
+    if (score >= 6 && score <= 11){
         //BLUE
         color = 1;
 
@@ -138,7 +144,7 @@ void MainWindow::updateHeartCoherence() {
         ui->coherenceLightBlue->setStyleSheet(QString::fromStdString("background-color: rgb(114, 159, 207)"));
         ui->coherenceLightGreen->setStyleSheet(QString::fromStdString("background-color: rgb(78, 154, 6)"));
     }
-    if (score >= 1.1 && score <= 5.1){
+    if (score >= 12 && score <= 16){
         //GREEN
         color = 2;
 
