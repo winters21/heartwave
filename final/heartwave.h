@@ -25,6 +25,9 @@ public:
     int getBattery();
     int GetAchievementScore() {return achievementScore;}
     int GetCounter() {return coherenceCount;}
+    double GetLTime() {return low_time;}
+    double GetMTime() {return med_time;}
+    double GetHTime() {return high_time;}
 
     std::deque<int> GetHeartbeats() {return heartbeats;}
 
@@ -40,6 +43,10 @@ public:
     void AddToAchievement(double s) { achievementScore += s;}
     void AddPointSecond(){session_time += 0.1;}
     void AddToCounter(){coherenceCount += 1;}
+    void AddCoherenceTimer(int);
+
+    void ResetSessionTime(){session_time = 0.0;}
+    void ResetCounters(){low_time = 0.0; med_time = 0.0; high_time = 0.0;}
 
     void readHR(int, int);
 
@@ -51,6 +58,10 @@ private:
 
     float battery;
     double session_time = 0.0;
+
+    double low_time = 0.0;
+    double med_time = 0.0;
+    double high_time = 0.0;
 
     std::deque<int> heartbeats;
     int breathPacer = 10;

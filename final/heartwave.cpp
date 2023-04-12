@@ -36,6 +36,16 @@ void HeartWave::endSession() {
 
 }
 
+void HeartWave::AddCoherenceTimer(int type){
+    if (type == 1){
+        low_time += 1.0;
+    } else if (type == 2) {
+        med_time += 1.0;
+    } else {
+        high_time += 1.0;
+    }
+}
+
 void HeartWave::readHR(int hr, int time) {
     this -> mediator ->addDataToGraph(hr, time);
 }
