@@ -24,6 +24,9 @@ public:
     void powerOffBattery();
     void resetModeButtons();
 
+    bool getFirstScore(){return firstScore;}
+    bool firstScoreSet(bool s){firstScore = s;}
+
 private slots:
     void update();
     void setSettings();
@@ -54,6 +57,7 @@ private:
 
     bool sessionUnderway;
     bool powerOn;
+    bool firstScore = false;
 
     // Methods
     void turnOn();
