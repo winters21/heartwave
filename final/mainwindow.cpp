@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     mediator = new Mediator(this);
     ui -> breathPacer -> setValue(this -> mediator -> getHeartWave() -> getBreathPacer());
+    ui -> Summary -> setVisible(false);
 
     mockGen = new MockHeartRate(this->mediator->getHeartWave());
 
@@ -39,10 +40,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui -> powerButton, SIGNAL(clicked()), SLOT(power()));
     connect(ui -> chargeBattery, SIGNAL(clicked()), SLOT(chargeBattery()));
+    connect(ui -> applyToSkin, SIGNAL(activated(int)), SLOT(setAppliedToSkin()));
+    connect(ui -> SummaryButton, SIGNAL(clicked()), SLOT(removeSummary()));
 
     powerOn = false;
     createGraph();
+    ui -> summaryGraph -> addGraph();
     turnOff();
+    appliedToSkin = true;
 
     timer_heart_coherence -> start(64000);
 //    timer_achievement -> start(5000);
@@ -91,6 +96,8 @@ void MainWindow::generateHeartRate() {
 
     //If this is the first score determined, change the light depending on the first score.
     if (!getFirstScore()){
+        firstCoherence = randomScore;
+        mediator->getHeartWave()->AddToAchievement(randomScore);
         updateHeartCoherence();
         firstScoreSet(true);
     }
@@ -119,6 +126,7 @@ void MainWindow::updateAchievementScore() {
     int score = mediator->getHeartWave()->getCoherence()->GetScore();
     std::cout << "Score: " << score << std::endl;
     mediator->getHeartWave()->AddToAchievement(score);
+    mediator->getHeartWave()->AddToCounter();
 }
 
 void MainWindow::updateHeartCoherence() {
@@ -181,6 +189,9 @@ void MainWindow::session() {
         ui -> breath -> setVisible(false);
         ui -> session -> setVisible(false);
 
+        createSummary();
+        ui -> Summary -> setVisible(true);
+
         mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
 
@@ -235,7 +246,7 @@ void MainWindow::addData(int heartbeat, int time) {
 }
 
 void MainWindow::clearGraph() {
-    ui -> customPlot -> graph(0) -> data() -> clear();
+    ui -> customPlot -> graph() -> clearData();
     ui -> customPlot -> replot();
     ui -> customPlot -> update();
 }
@@ -327,4 +338,52 @@ void MainWindow::powerOffBattery() {
     ui -> batteryLevel -> setVisible(false);
     ui -> breath -> setVisible(false);
     timer_battery -> stop();
+}
+
+void MainWindow::setAppliedToSkin() {
+    if (ui -> applyToSkin -> currentText() == "Yes") {
+        appliedToSkin = true;
+    } else {
+        appliedToSkin = false;
+    }
+}
+
+void MainWindow::removeSummary() {
+    ui -> summaryGraph -> graph() -> clearData();
+    ui -> summaryGraph -> replot();
+    ui -> summaryGraph -> update();
+    ui -> Summary -> setVisible(false);
+}
+
+void MainWindow::createSummary() {
+    // Session Length
+    string str = "Session Length: " + to_string(mediator -> getHeartWave() -> getSessionTime()) + "s";
+    QString length(str.c_str());
+    ui -> SessionLength -> setText(length);
+
+    // Average Coherence
+    cout << mediator -> getHeartWave() -> GetAchievementScore() << endl;
+    cout << mediator -> getHeartWave() -> GetCounter() + 1 << endl;
+    str = "Average Coherence: " + to_string((mediator -> getHeartWave() -> GetAchievementScore()) / (mediator -> getHeartWave() -> GetCounter() + 1));
+    QString avg(str.c_str());
+    ui -> AverageCoherence -> setText(avg);
+
+    // Achievement Score
+    str = "Achievement Score: " + to_string(mediator -> getHeartWave() -> GetAchievementScore());
+    QString as(str.c_str());
+    ui -> AchievementScore -> setText(as);
+
+    // Copy the graph to the summary
+    copyGraph();
+}
+
+void MainWindow::copyGraph() {
+    ui -> summaryGraph -> xAxis -> setLabel("Time");
+    ui -> summaryGraph -> yAxis -> setLabel("HeartBeat");
+    ui -> summaryGraph -> xAxis -> setRange(ui -> customPlot -> xAxis -> range());
+    ui -> summaryGraph -> yAxis -> setRange(ui -> customPlot -> yAxis -> range());
+    //ui -> summaryGraph -> graph() -> setData(ui -> customPlot -> graph(0) -> data());
+    ui -> summaryGraph -> graph() -> addData(*(ui -> customPlot -> graph() -> data()));
+    ui -> summaryGraph -> replot();
+    ui -> summaryGraph -> update();
 }

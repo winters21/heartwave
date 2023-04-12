@@ -23,6 +23,8 @@ public:
     void clearGraph();
     void powerOffBattery();
     void resetModeButtons();
+    void createSummary();
+    void copyGraph();
 
     bool getFirstScore(){return firstScore;}
     bool firstScoreSet(bool s){firstScore = s;}
@@ -41,6 +43,8 @@ private slots:
     void power();
     void chargeBattery();
     void updateBreathLabel();
+    void setAppliedToSkin();
+    void removeSummary();
     
 private:
     Ui::MainWindow *ui;
@@ -58,6 +62,8 @@ private:
     bool sessionUnderway;
     bool powerOn;
     bool firstScore = false;
+    bool appliedToSkin;
+    int firstCoherence;
 
     // Methods
     void turnOn();
