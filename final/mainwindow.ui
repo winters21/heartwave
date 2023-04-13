@@ -639,13 +639,15 @@ border-radius: 20px;</string>
       </rect>
      </property>
      <property name="autoFillBackground">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
-     <item>
-      <property name="text">
-       <string>New Session</string>
-      </property>
-     </item>
+     <property name="styleSheet">
+      <string notr="true">border-bottom-right-radius: 12px;
+border-bottom-left-radius: 12px;
+background-color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+selection-background-color: rgb(122, 0, 0)</string>
+     </property>
     </widget>
    </widget>
    <widget class="QLabel" name="breath">
