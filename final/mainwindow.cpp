@@ -49,6 +49,15 @@ MainWindow::MainWindow(QWidget *parent)
     turnOff();
     appliedToSkin = true;
 
+    // Initialize the menu view
+
+    QStringList menuListItems;
+    menuListItems.append("New Session");
+
+    ui -> menuList ->addItems(menuListItems);
+    ui -> menuList ->setCurrentRow(0);
+
+
     timer_heart_coherence -> start(64000);
 //    timer_achievement -> start(5000);
 }
@@ -221,6 +230,9 @@ void MainWindow::session() {
         mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Started");
         cout << "Starting Session.." << endl;
 
+        ui -> customPlot ->setVisible(true);
+        ui -> menuList -> setVisible(false);
+
         //!/ Start all timers
         timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
         timer_heart_rate -> start(1000);        //Get heartrate every second.
@@ -278,13 +290,15 @@ void MainWindow::power() {
 }
 
 void MainWindow::turnOn() {
-    ui -> customPlot -> setVisible(true);
+    // Graph visible is set false to let the menu go on top
+    ui -> customPlot -> setVisible(false);
     ui -> upButton -> setEnabled(true);
     ui -> downButton -> setEnabled(true);
     ui -> leftButton -> setEnabled(true);
     ui -> rightButton -> setEnabled(true);
     ui -> okButton -> setEnabled(true);
     ui -> batteryLevel -> setVisible(true);
+    ui -> menuList -> setVisible(true);
 
     // Start the battery QTimer
     timer_battery -> start(2000);

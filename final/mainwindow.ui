@@ -629,6 +629,24 @@ border-radius: 20px;</string>
       <height>201</height>
      </rect>
     </property>
+    <widget class="QListWidget" name="menuList">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>291</width>
+       <height>191</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>New Session</string>
+      </property>
+     </item>
+    </widget>
    </widget>
    <widget class="QLabel" name="breath">
     <property name="geometry">
