@@ -206,11 +206,7 @@ void MainWindow::session() {
 
         createSummary();
         ui -> Summary -> setVisible(true);
-
-        mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
-
-        //TODO Log the data
 
         // Clear the graph at the end of a session
         // along with the data
@@ -233,8 +229,6 @@ void MainWindow::session() {
         ui -> session -> setStyleSheet("QLabel { color : white; }");
         int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
         timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
-
-        mediator -> getHeartWave() -> startSession();
         sessionUnderway = true;
     }
 }
@@ -244,8 +238,8 @@ void MainWindow::createGraph() {
     ui -> customPlot -> addGraph();
     ui -> customPlot -> xAxis -> setLabel("Time");
     ui -> customPlot -> yAxis -> setLabel("HeartBeat");
-    ui -> customPlot -> xAxis -> setRange(0, 200);
-    ui -> customPlot -> yAxis -> setRange(50, 110);
+    ui -> customPlot -> xAxis -> setRange(0, 10);
+    ui -> customPlot -> yAxis -> setRange(40, 130);
 
     // Sets the line color
     QColor color(0, 0, 255);
@@ -254,9 +248,10 @@ void MainWindow::createGraph() {
 }
 
 void MainWindow::addData(int heartbeat, int time) {
-    // TODO: Add the data to the graph in real time
     // heartbeat = y, time = x
+    cout << "X: " << time << endl;
     ui -> customPlot -> graph() -> addData(time, heartbeat);
+    ui -> customPlot -> rescaleAxes(true);
     ui -> customPlot -> replot();
     ui -> customPlot -> update();
 }
@@ -437,7 +432,6 @@ void MainWindow::copyGraph() {
     ui -> summaryGraph -> yAxis -> setLabel("HeartBeat");
     ui -> summaryGraph -> xAxis -> setRange(ui -> customPlot -> xAxis -> range());
     ui -> summaryGraph -> yAxis -> setRange(ui -> customPlot -> yAxis -> range());
-    //ui -> summaryGraph -> graph() -> setData(ui -> customPlot -> graph(0) -> data());
     ui -> summaryGraph -> graph() -> addData(*(ui -> customPlot -> graph() -> data()));
     ui -> summaryGraph -> replot();
     ui -> summaryGraph -> update();
