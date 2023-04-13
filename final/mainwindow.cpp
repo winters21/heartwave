@@ -368,7 +368,7 @@ void MainWindow::removeSummary() {
 
 void MainWindow::createSummary() {
     // Session Length
-    string str = "Session Length: " + to_string(mediator -> getHeartWave() -> getSessionTime()) + "s";
+    string str = "Session Length: " + to_string((int) mediator -> getHeartWave() -> getSessionTime()) + "s";
     QString length(str.c_str());
     ui -> SessionLength -> setText(length);
     mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Session Length (s) = " + to_string(mediator -> getHeartWave() -> getSessionTime()));
@@ -394,9 +394,9 @@ void MainWindow::createSummary() {
     std::cout << "MC : " << mediator->getHeartWave()->GetMTime() << std::endl;
     std::cout << "HC : " << mediator->getHeartWave()->GetHTime() << std::endl;
 
-    std::string lstr = "LC (%): " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())));
-    std::string mstr = "MC (%): " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime())));
-    std::string hstr = "HC (%): " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime())));
+    std::string lstr = "LC (%): " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string mstr = "MC (%): " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string hstr = "HC (%): " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
 
     QString lc(lstr.c_str());
     QString mc(mstr.c_str());
