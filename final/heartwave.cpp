@@ -28,14 +28,6 @@ void HeartWave::resetBattery() {
     this -> mediator -> updateUIElement("battery");
 }
 
-void HeartWave::startSession() {
-
-}
-
-void HeartWave::endSession() {
-
-}
-
 void HeartWave::AddCoherenceTimer(int type){
     if (type == 1){
         low_time += 1.0;
