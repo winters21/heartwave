@@ -45,6 +45,9 @@ private slots:
     void updateBreathLabel();
     void setAppliedToSkin();
     void removeSummary();
+
+    void goDownMenu();
+    void goUpMenu();
     
 private:
     Ui::MainWindow *ui;

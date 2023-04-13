@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     appliedToSkin = true;
 
     // Initialize the menu view
+    connect(ui -> upButton, SIGNAL(clicked()), SLOT(goUpMenu()));
+    connect(ui -> downButton, SIGNAL(clicked()), SLOT(goDownMenu()));
 
     QStringList menuListItems;
     menuListItems.append("New Session");
@@ -65,6 +67,26 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::goUpMenu() {
+    int nextIndex = ui -> menuList -> currentRow() - 1;
+
+    if (nextIndex < 0) {
+        nextIndex = ui -> menuList -> count() - 1;
+    }
+
+    ui -> menuList -> setCurrentRow(nextIndex);
+}
+
+void MainWindow::goDownMenu() {
+    int nextIndex = ui -> menuList -> currentRow() + 1;
+
+    if (nextIndex > ui -> menuList -> count() - 1) {
+        nextIndex = 0;
+    }
+
+    ui -> menuList -> setCurrentRow(nextIndex);
 }
 
 void MainWindow::activateHighCoherence() {
