@@ -242,11 +242,7 @@ void MainWindow::session() {
 
         createSummary();
         ui -> Summary -> setVisible(true);
-
-        mediator -> getHeartWave() -> endSession();
         sessionUnderway = false;
-
-        //TODO Log the data
 
         // Clear the graph at the end of a session
         // along with the data
@@ -275,6 +271,25 @@ void MainWindow::session() {
 
         mediator -> getHeartWave() -> startSession();
         sessionUnderway = true;
+        
+        if (appliedToSkin){
+            //!/ Start all timers
+            timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
+            timer_heart_rate -> start(1000);        //Get heartrate every second.
+            timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
+            timer_session_time -> start(100);       //Update the time every .1 second/
+            ui -> breath -> setVisible(true);
+            ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
+            ui -> breath -> setStyleSheet("QLabel { color : white; }");
+            ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
+            ui -> session -> setStyleSheet("QLabel { color : white; }");
+            int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
+            timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
+            sessionUnderway = true;
+        } else {
+            mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Stopped (Not Applied to Skin)");
+            cout << "Ending Session (Not Applied to Skin).." << endl;
+        }
     }
 }
 
@@ -283,8 +298,8 @@ void MainWindow::createGraph() {
     ui -> customPlot -> addGraph();
     ui -> customPlot -> xAxis -> setLabel("Time");
     ui -> customPlot -> yAxis -> setLabel("HeartBeat");
-    ui -> customPlot -> xAxis -> setRange(0, 200);
-    ui -> customPlot -> yAxis -> setRange(50, 110);
+    ui -> customPlot -> xAxis -> setRange(0, 10);
+    ui -> customPlot -> yAxis -> setRange(40, 130);
 
     // Sets the line color
     QColor color(0, 0, 255);
@@ -293,9 +308,10 @@ void MainWindow::createGraph() {
 }
 
 void MainWindow::addData(int heartbeat, int time) {
-    // TODO: Add the data to the graph in real time
     // heartbeat = y, time = x
+    cout << "X: " << time << endl;
     ui -> customPlot -> graph() -> addData(time, heartbeat);
+    ui -> customPlot -> rescaleAxes(true);
     ui -> customPlot -> replot();
     ui -> customPlot -> update();
 }
@@ -403,6 +419,9 @@ void MainWindow::setAppliedToSkin() {
         appliedToSkin = true;
     } else {
         appliedToSkin = false;
+        if (sessionUnderway){
+            session();
+        }
     }
 }
 
@@ -415,7 +434,7 @@ void MainWindow::removeSummary() {
 
 void MainWindow::createSummary() {
     // Session Length
-    string str = "Session Length: " + to_string(mediator -> getHeartWave() -> getSessionTime()) + "s";
+    string str = "Session Length: " + to_string((int) mediator -> getHeartWave() -> getSessionTime()) + "s";
     QString length(str.c_str());
     ui -> SessionLength -> setText(length);
     mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Session Length (s) = " + to_string(mediator -> getHeartWave() -> getSessionTime()));
@@ -441,9 +460,9 @@ void MainWindow::createSummary() {
     std::cout << "MC : " << mediator->getHeartWave()->GetMTime() << std::endl;
     std::cout << "HC : " << mediator->getHeartWave()->GetHTime() << std::endl;
 
-    std::string lstr = "LC (%): " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())));
-    std::string mstr = "MC (%): " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime())));
-    std::string hstr = "HC (%): " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime())));
+    std::string lstr = "LC (%): " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string mstr = "MC (%): " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string hstr = "HC (%): " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
 
     QString lc(lstr.c_str());
     QString mc(mstr.c_str());
@@ -479,7 +498,6 @@ void MainWindow::copyGraph() {
     ui -> summaryGraph -> yAxis -> setLabel("HeartBeat");
     ui -> summaryGraph -> xAxis -> setRange(ui -> customPlot -> xAxis -> range());
     ui -> summaryGraph -> yAxis -> setRange(ui -> customPlot -> yAxis -> range());
-    //ui -> summaryGraph -> graph() -> setData(ui -> customPlot -> graph(0) -> data());
     ui -> summaryGraph -> graph() -> addData(*(ui -> customPlot -> graph() -> data()));
     ui -> summaryGraph -> replot();
     ui -> summaryGraph -> update();
