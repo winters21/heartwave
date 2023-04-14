@@ -217,19 +217,24 @@ void MainWindow::session() {
         mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Started");
         cout << "Starting Session.." << endl;
 
-        //!/ Start all timers
-        timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
-        timer_heart_rate -> start(1000);        //Get heartrate every second.
-        timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
-        timer_session_time -> start(100);       //Update the time every .1 second/
-        ui -> breath -> setVisible(true);
-        ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
-        ui -> breath -> setStyleSheet("QLabel { color : white; }");
-        ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
-        ui -> session -> setStyleSheet("QLabel { color : white; }");
-        int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
-        timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
-        sessionUnderway = true;
+        if (appliedToSkin){
+            //!/ Start all timers
+            timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
+            timer_heart_rate -> start(1000);        //Get heartrate every second.
+            timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
+            timer_session_time -> start(100);       //Update the time every .1 second/
+            ui -> breath -> setVisible(true);
+            ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
+            ui -> breath -> setStyleSheet("QLabel { color : white; }");
+            ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
+            ui -> session -> setStyleSheet("QLabel { color : white; }");
+            int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
+            timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
+            sessionUnderway = true;
+        } else {
+            mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Stopped (Not Applied to Skin)");
+            cout << "Ending Session (Not Applied to Skin).." << endl;
+        }
     }
 }
 
@@ -356,6 +361,9 @@ void MainWindow::setAppliedToSkin() {
         appliedToSkin = true;
     } else {
         appliedToSkin = false;
+        if (sessionUnderway){
+            session();
+        }
     }
 }
 
