@@ -25,6 +25,7 @@ public:
     void resetModeButtons();
     void createSummary();
     void copyGraph();
+    void reloadMenu();
 
     bool getFirstScore(){return firstScore;}
     bool firstScoreSet(bool s){firstScore = s;}
@@ -45,6 +46,9 @@ private slots:
     void updateBreathLabel();
     void setAppliedToSkin();
     void removeSummary();
+
+    void goDownMenu();
+    void goUpMenu();
     
 private:
     Ui::MainWindow *ui;

@@ -49,6 +49,14 @@ MainWindow::MainWindow(QWidget *parent)
     turnOff();
     appliedToSkin = true;
 
+    // Initialize the menu view
+    connect(ui -> upButton, SIGNAL(clicked()), SLOT(goUpMenu()));
+    connect(ui -> downButton, SIGNAL(clicked()), SLOT(goDownMenu()));
+    ui -> menuList ->setGeometry(ui -> customPlot -> geometry().x(), ui -> customPlot -> geometry().y(), ui -> customPlot -> geometry().width(), ui -> customPlot -> geometry().height());
+    reloadMenu();
+    ui -> menuList -> setVisible(false);
+
+
     timer_heart_coherence -> start(64000);
 //    timer_achievement -> start(5000);
 }
@@ -56,6 +64,34 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::reloadMenu() {
+
+    QStringList menuListItems;
+    menuListItems.append("New Session");
+    ui -> menuList ->addItems(menuListItems);
+    ui -> menuList ->setCurrentRow(0);
+}
+
+void MainWindow::goUpMenu() {
+    int nextIndex = ui -> menuList -> currentRow() - 1;
+
+    if (nextIndex < 0) {
+        nextIndex = ui -> menuList -> count() - 1;
+    }
+
+    ui -> menuList -> setCurrentRow(nextIndex);
+}
+
+void MainWindow::goDownMenu() {
+    int nextIndex = ui -> menuList -> currentRow() + 1;
+
+    if (nextIndex > ui -> menuList -> count() - 1) {
+        nextIndex = 0;
+    }
+
+    ui -> menuList -> setCurrentRow(nextIndex);
 }
 
 void MainWindow::activateHighCoherence() {
@@ -208,6 +244,11 @@ void MainWindow::session() {
         ui -> Summary -> setVisible(true);
         sessionUnderway = false;
 
+        // Set menu visible and hide graph
+        ui -> customPlot -> setVisible(false);
+        ui -> menuList -> setVisible(true);
+        reloadMenu();
+
         // Clear the graph at the end of a session
         // along with the data
         clearGraph();
@@ -217,6 +258,24 @@ void MainWindow::session() {
         mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Started");
         cout << "Starting Session.." << endl;
 
+        ui -> customPlot ->setVisible(true);
+        ui -> menuList -> setVisible(false);
+
+        //!/ Start all timers
+        timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
+        timer_heart_rate -> start(1000);        //Get heartrate every second.
+        timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
+        timer_session_time -> start(100);       //Update the time every .1 second/
+        ui -> breath -> setVisible(true);
+        ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
+        ui -> breath -> setStyleSheet("QLabel { color : white; }");
+        ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
+        ui -> session -> setStyleSheet("QLabel { color : white; }");
+        int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
+        timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
+
+        sessionUnderway = true;
+        
         if (appliedToSkin){
             //!/ Start all timers
             timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
@@ -278,13 +337,15 @@ void MainWindow::power() {
 }
 
 void MainWindow::turnOn() {
-    ui -> customPlot -> setVisible(true);
+    // Graph visible is set false to let the menu go on top
+    ui -> customPlot -> setVisible(false);
     ui -> upButton -> setEnabled(true);
     ui -> downButton -> setEnabled(true);
     ui -> leftButton -> setEnabled(true);
     ui -> rightButton -> setEnabled(true);
     ui -> okButton -> setEnabled(true);
     ui -> batteryLevel -> setVisible(true);
+    ui -> menuList -> setVisible(true);
 
     // Start the battery QTimer
     timer_battery -> start(2000);
@@ -303,6 +364,7 @@ void MainWindow::turnOff() {
     ui -> session -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
+    ui -> menuList -> setVisible(false);
 
     mockGen->clearList();
     clearGraph();
