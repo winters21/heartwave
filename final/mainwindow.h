@@ -25,6 +25,7 @@ public:
     void resetModeButtons();
     void createSummary();
     void copyGraph();
+    void reloadMenu();
 
     bool getFirstScore(){return firstScore;}
     bool firstScoreSet(bool s){firstScore = s;}

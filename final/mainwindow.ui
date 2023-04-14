@@ -629,26 +629,6 @@ border-radius: 20px;</string>
       <height>201</height>
      </rect>
     </property>
-    <widget class="QListWidget" name="menuList">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>291</width>
-       <height>191</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-bottom-right-radius: 12px;
-border-bottom-left-radius: 12px;
-background-color: rgb(255, 255, 255);
-color: rgb(255, 255, 255);
-selection-background-color: rgb(122, 0, 0)</string>
-     </property>
-    </widget>
    </widget>
    <widget class="QLabel" name="breath">
     <property name="geometry">
@@ -661,6 +641,26 @@ selection-background-color: rgb(122, 0, 0)</string>
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="menuList">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>60</y>
+      <width>211</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-bottom-right-radius: 12px;
+border-bottom-left-radius: 12px;
+background-color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);
+selection-background-color: rgb(122, 0, 0)</string>
     </property>
    </widget>
    <zorder>widget_2</zorder>
@@ -682,6 +682,7 @@ selection-background-color: rgb(122, 0, 0)</string>
    <zorder>batteryLevel</zorder>
    <zorder>customPlot</zorder>
    <zorder>breath</zorder>
+   <zorder>menuList</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

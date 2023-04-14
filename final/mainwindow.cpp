@@ -52,12 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialize the menu view
     connect(ui -> upButton, SIGNAL(clicked()), SLOT(goUpMenu()));
     connect(ui -> downButton, SIGNAL(clicked()), SLOT(goDownMenu()));
-
-    QStringList menuListItems;
-    menuListItems.append("New Session");
-
-    ui -> menuList ->addItems(menuListItems);
-    ui -> menuList ->setCurrentRow(0);
+    ui -> menuList ->setGeometry(ui -> customPlot -> geometry().x(), ui -> customPlot -> geometry().y(), ui -> customPlot -> geometry().width(), ui -> customPlot -> geometry().height());
+    reloadMenu();
+    ui -> menuList -> setVisible(false);
 
 
     timer_heart_coherence -> start(64000);
@@ -67,6 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::reloadMenu() {
+
+    QStringList menuListItems;
+    menuListItems.append("New Session");
+    ui -> menuList ->addItems(menuListItems);
+    ui -> menuList ->setCurrentRow(0);
 }
 
 void MainWindow::goUpMenu() {
@@ -339,6 +344,7 @@ void MainWindow::turnOff() {
     ui -> session -> setVisible(false);
     this -> mediator -> getHeartWave() -> resetBattery();
     timer_battery -> stop();
+    ui -> menuList -> setVisible(false);
 
     mockGen->clearList();
     clearGraph();
