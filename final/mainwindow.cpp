@@ -244,6 +244,11 @@ void MainWindow::session() {
         ui -> Summary -> setVisible(true);
         sessionUnderway = false;
 
+        // Set menu visible and hide graph
+        ui -> customPlot -> setVisible(false);
+        ui -> menuList -> setVisible(true);
+        reloadMenu();
+
         // Clear the graph at the end of a session
         // along with the data
         clearGraph();
@@ -269,7 +274,6 @@ void MainWindow::session() {
         int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
         timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
 
-        mediator -> getHeartWave() -> startSession();
         sessionUnderway = true;
         
         if (appliedToSkin){
