@@ -41,3 +41,13 @@ void HeartWave::AddCoherenceTimer(int type){
 void HeartWave::readHR(int hr, int time) {
     this -> mediator ->addDataToGraph(hr, time);
 }
+
+void HeartWave::fixTimer(int type) {
+    if (type == 1) {
+        low_time = session_time;
+    } else if (type == 2) {
+        med_time = session_time;
+    } else if (type == 3) {
+        high_time  = session_time;
+    }
+}

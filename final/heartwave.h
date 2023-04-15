@@ -43,6 +43,8 @@ public:
     void AddToCounter(){coherenceCount += 1;}
     void AddCoherenceTimer(int);
 
+    void fixTimer(int);
+
     void ResetSessionTime(){session_time = 0.0;}
     void ResetCounters(){low_time = 0.0; med_time = 0.0; high_time = 0.0;}
 

@@ -122,15 +122,17 @@ void MainWindow::generateHeartRate() {
     int randomScore;
     int type;
 
+    srand(time(NULL));
+
     if(mockGen->getMode() == 1){
         type = 1;
-        randomScore = (rand() % 6) - 1;
+        randomScore = (rand() % 6);
     } else if (mockGen->getMode() == 2){
         type = 2;
-        randomScore = ((rand() % 5) + 6) - 1;
+        randomScore = ((rand() % 5) + 6);
     }else{
         type = 3;
-        randomScore = ((rand() % 5) + 11) - 1;
+        randomScore = ((rand() % 5) + 11);
     }
 
     mediator->getHeartWave()->AddCoherenceTimer(type);
@@ -445,11 +447,23 @@ void MainWindow::createSummary() {
     mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Achievement Score = " + to_string(mediator -> getHeartWave() -> GetAchievementScore()));
 
     // Percentage Times
+    if (mockGen->getMode() == 1) {
+        if (mediator->getHeartWave()->GetLTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(1);
+        }
+    } else if (mockGen->getMode() == 2) {
+        if (mediator->getHeartWave()->GetMTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(2);
+        }
+    } else if (mockGen->getMode() == 3) {
+        if (mediator->getHeartWave()->GetHTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(3);
+        }
+    }
+
     std::cout << "LC : " << mediator->getHeartWave()->GetLTime() << std::endl;
     std::cout << "MC : " << mediator->getHeartWave()->GetMTime() << std::endl;
     std::cout << "HC : " << mediator->getHeartWave()->GetHTime() << std::endl;
-
-
 
     std::string lstr = "LC (%): " + to_string((double) ((mediator->getHeartWave()->GetLTime()) / (mediator->getHeartWave()->getSessionTime())) * 100);
     std::string mstr = "MC (%): " + to_string((double) ((mediator->getHeartWave()->GetMTime()) / (mediator->getHeartWave()->getSessionTime())) * 100);
