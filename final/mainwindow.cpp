@@ -122,15 +122,17 @@ void MainWindow::generateHeartRate() {
     int randomScore;
     int type;
 
+    srand(time(NULL));
+
     if(mockGen->getMode() == 1){
         type = 1;
         randomScore = (rand() % 6);
     } else if (mockGen->getMode() == 2){
         type = 2;
-        randomScore = (rand() % 5) + 6;
+        randomScore = ((rand() % 5) + 6);
     }else{
         type = 3;
-        randomScore = (rand() % 5) + 12;
+        randomScore = ((rand() % 5) + 11);
     }
 
     mediator->getHeartWave()->AddCoherenceTimer(type);
@@ -255,33 +257,17 @@ void MainWindow::session() {
         mockGen -> clearList();
         resetModeButtons();
     } else {
-        mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Started");
-        cout << "Starting Session.." << endl;
-
-        ui -> customPlot ->setVisible(true);
-        ui -> menuList -> setVisible(false);
-
-        //!/ Start all timers
-        timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
-        timer_heart_rate -> start(1000);        //Get heartrate every second.
-        timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
-        timer_session_time -> start(100);       //Update the time every .1 second/
-        ui -> breath -> setVisible(true);
-        ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
-        ui -> breath -> setStyleSheet("QLabel { color : white; }");
-        ui -> session -> setVisible(true);     //Set the session label to true so it shows when a session is underway
-        ui -> session -> setStyleSheet("QLabel { color : white; }");
-        int pacer = this -> mediator -> getHeartWave() -> getBreathPacer();  // Get the breath pacer from heartwave
-        timer_breath -> start((pacer / 2) * 1000);    // Start the breath pacer timer
-
-        sessionUnderway = true;
-        
         if (appliedToSkin){
+            mediator->getHeartWave()->getLog()->addToCurrentLogs("Session Started");
+            cout << "Starting Session.." << endl;
+
+            ui -> customPlot ->setVisible(true);
+            ui -> menuList -> setVisible(false);
             //!/ Start all timers
             timer_heart_coherence -> start(64000);  //Get heart coherence every 64 seconds
-            timer_heart_rate -> start(1000);        //Get heartrate every second.
             timer_achievement -> start(5000);       //Get the coherence score every 5 seconds.
             timer_session_time -> start(100);       //Update the time every .1 second/
+            timer_heart_rate -> start(1000);        //Get heartrate every second.
             ui -> breath -> setVisible(true);
             ui -> breath -> setText("Breathing In");  // Set the label to 'Breathing In' to begin the session
             ui -> breath -> setStyleSheet("QLabel { color : white; }");
@@ -407,6 +393,7 @@ void MainWindow::powerOffBattery() {
     }
     // Disable all the UI features until battery is recharged
     ui -> customPlot -> setVisible(false);
+    ui -> menuList -> setVisible(false);
     ui -> upButton -> setEnabled(false);
     ui -> downButton -> setEnabled(false);
     ui -> leftButton -> setEnabled(false);
@@ -460,13 +447,27 @@ void MainWindow::createSummary() {
     mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Achievement Score = " + to_string(mediator -> getHeartWave() -> GetAchievementScore()));
 
     // Percentage Times
+    if (mockGen->getMode() == 1) {
+        if (mediator->getHeartWave()->GetLTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(1);
+        }
+    } else if (mockGen->getMode() == 2) {
+        if (mediator->getHeartWave()->GetMTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(2);
+        }
+    } else if (mockGen->getMode() == 3) {
+        if (mediator->getHeartWave()->GetHTime() > mediator->getHeartWave()->getSessionTime()) {
+            mediator->getHeartWave()->fixTimer(3);
+        }
+    }
+
     std::cout << "LC : " << mediator->getHeartWave()->GetLTime() << std::endl;
     std::cout << "MC : " << mediator->getHeartWave()->GetMTime() << std::endl;
     std::cout << "HC : " << mediator->getHeartWave()->GetHTime() << std::endl;
 
-    std::string lstr = "LC (%): " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
-    std::string mstr = "MC (%): " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
-    std::string hstr = "HC (%): " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string lstr = "LC (%): " + to_string((double) ((mediator->getHeartWave()->GetLTime()) / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string mstr = "MC (%): " + to_string((double) ((mediator->getHeartWave()->GetMTime()) / (mediator->getHeartWave()->getSessionTime())) * 100);
+    std::string hstr = "HC (%): " + to_string((double) ((mediator->getHeartWave()->GetHTime()) / (mediator->getHeartWave()->getSessionTime())) * 100);
 
     QString lc(lstr.c_str());
     QString mc(mstr.c_str());
@@ -475,9 +476,9 @@ void MainWindow::createSummary() {
     ui -> mediumCoherence -> setText(mc);
     ui -> highCoherence -> setText(hc);
 
-    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Low Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime()))));
-    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Medium Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime()))));
-    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] High Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime()))));
+    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Low Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetLTime() / (mediator->getHeartWave()->getSessionTime())) * 100));
+    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] Medium Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetMTime() / (mediator->getHeartWave()->getSessionTime()) * 100)));
+    mediator->getHeartWave()->getLog()->addToCurrentLogs("[SUMMARY] High Coherence Time Percentage = " + to_string((double) (mediator->getHeartWave()->GetHTime() / (mediator->getHeartWave()->getSessionTime()) * 100)));
 
     mediator->getHeartWave()->getLog()->addToSystemLog();
 
